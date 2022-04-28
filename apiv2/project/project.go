@@ -162,9 +162,11 @@ func (c *RESTClient) GetProject(ctx context.Context, nameOrID string) (*modelv2.
 // Returns all projects if name is an empty string.
 // Returns an error if no projects were found.
 func (c *RESTClient) ListProjects(ctx context.Context, nameFilter string) ([]*modelv2.Project, error) {
+	pageSize := int64(100)
 	resp, err := c.V2Client.Project.ListProjects(&projectapi.ListProjectsParams{
-		Name:    &nameFilter,
-		Context: ctx,
+		Name:     &nameFilter,
+		Context:  ctx,
+		PageSize: &pageSize,
 	}, c.AuthInfo)
 	if err != nil {
 		return nil, handleSwaggerProjectErrors(err)
