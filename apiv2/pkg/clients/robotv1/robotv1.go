@@ -33,7 +33,7 @@ func NewClient(v2Client *v2client.Harbor, opts *config.Options, authInfo runtime
 
 type Client interface {
 	ListProjectRobotsV1(ctx context.Context, projectNameOrID string) ([]*modelv2.Robot, error)
-	AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) error
+	AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) (*robotv1.CreateRobotV1Created, error)
 	UpdateProjectRobotV1(ctx context.Context, projectNameOrID string, robotID int64, r *modelv2.Robot) error
 	DeleteProjectRobotV1(ctx context.Context, projectNameOrID string, robotID int64) error
 }
@@ -61,7 +61,7 @@ func (c *RESTClient) ListProjectRobotsV1(ctx context.Context, projectNameOrID st
 
 // AddProjectRobotV1 creates the robot account 'r' and adds it to the project 'p'.
 // and returns a 'RobotCreated' response.
-func (c *RESTClient) AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) error {
+func (c *RESTClient) AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) (*robotv1.CreateRobotV1Created, error) {
 	params := &robotv1.CreateRobotV1Params{
 		ProjectNameOrID: projectNameOrID,
 		Robot:           r,
@@ -70,12 +70,12 @@ func (c *RESTClient) AddProjectRobotV1(ctx context.Context, projectNameOrID stri
 
 	params.WithTimeout(c.Options.Timeout)
 
-	_, err := c.V2Client.Robotv1.CreateRobotV1(params, c.AuthInfo)
+	rc, err := c.V2Client.Robotv1.CreateRobotV1(params, c.AuthInfo)
 	if err != nil {
-		return handleSwaggerRobotV1Errors(err)
+		return rc, handleSwaggerRobotV1Errors(err)
 	}
 
-	return nil
+	return rc, nil
 }
 
 // UpdateProjectRobotV1 updates a robot account 'r' in project 'p' using the 'robotID'.

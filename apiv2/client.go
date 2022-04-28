@@ -365,7 +365,7 @@ func (c *RESTClient) ListProjectRobotsV1(ctx context.Context, projectNameOrID st
 	return c.robotv1.ListProjectRobotsV1(ctx, projectNameOrID)
 }
 
-func (c *RESTClient) AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) error {
+func (c *RESTClient) AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) (*robotv1.CreateRobotV1Created, error) {
 	return c.robotv1.AddProjectRobotV1(ctx, projectNameOrID, r)
 }
 
