@@ -26,6 +26,7 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	v2client "github.com/mittwald/goharbor-client/v5/apiv2/internal/api/client"
+	robotv1client "github.com/mittwald/goharbor-client/v5/apiv2/internal/api/client/robotv1"
 
 	"github.com/mittwald/goharbor-client/v5/apiv2/pkg/clients/project"
 	"github.com/mittwald/goharbor-client/v5/apiv2/pkg/clients/registry"
@@ -365,7 +366,7 @@ func (c *RESTClient) ListProjectRobotsV1(ctx context.Context, projectNameOrID st
 	return c.robotv1.ListProjectRobotsV1(ctx, projectNameOrID)
 }
 
-func (c *RESTClient) AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) (*robotv1.CreateRobotV1Created, error) {
+func (c *RESTClient) AddProjectRobotV1(ctx context.Context, projectNameOrID string, r *modelv2.RobotCreateV1) (*robotv1client.CreateRobotV1Created, error) {
 	return c.robotv1.AddProjectRobotV1(ctx, projectNameOrID, r)
 }
 
