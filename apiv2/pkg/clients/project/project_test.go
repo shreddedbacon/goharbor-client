@@ -75,7 +75,7 @@ func TestRESTClient_NewProject(t *testing.T) {
 	mockClient.Project.On("CreateProject", postParams, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(&projectapi.CreateProjectCreated{}, nil)
 
-	_, err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
+	err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
 		ProjectName:  exampleProject.Name,
 		StorageLimit: &exampleStorageLimitPositive,
 	})
@@ -105,7 +105,7 @@ func TestRESTClient_NewProject_UnlimitedStorage(t *testing.T) {
 	mockClient.Project.On("CreateProject", createParams, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(&projectapi.CreateProjectCreated{}, nil)
 
-	_, err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
+	err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
 		ProjectName:  exampleProject.Name,
 		StorageLimit: &exampleStorageLimitNegative,
 		RegistryID:   int64Ptr(0),
@@ -129,7 +129,7 @@ func TestRESTClient_NewProject_ErrProjectUnauthorized(t *testing.T) {
 	mockClient.Project.On("CreateProject", createParams, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(&projectapi.CreateProjectCreated{}, &runtime.APIError{Code: http.StatusUnauthorized})
 
-	_, err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
+	err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
 		ProjectName:  exampleProject.Name,
 		StorageLimit: &exampleStorageLimitPositive,
 	})
@@ -181,7 +181,7 @@ func TestRESTClient_NewProject_ErrProjectUnknownResource(t *testing.T) {
 	mockClient.Project.On("CreateProject", createParams, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(nil, &errors.ErrProjectUnknownResource{})
 
-	_, err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
+	err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
 		ProjectName:  exampleProject.Name,
 		StorageLimit: &exampleStorageLimitPositive,
 	})
@@ -205,7 +205,7 @@ func TestRESTClient_NewProject_ErrProjectInternalErrors(t *testing.T) {
 	mockClient.Project.On("CreateProject", createParams, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(&projectapi.CreateProjectCreated{}, &runtime.APIError{Code: http.StatusInternalServerError})
 
-	_, err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
+	err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
 		ProjectName:  exampleProject.Name,
 		StorageLimit: &exampleStorageLimitPositive,
 	})
@@ -228,7 +228,7 @@ func TestRESTClient_NewProject_ErrProjectIDNotExists(t *testing.T) {
 	mockClient.Project.On("CreateProject", createParams, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(&projectapi.CreateProjectCreated{}, &runtime.APIError{Code: http.StatusNotFound})
 
-	_, err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
+	err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
 		ProjectName:  exampleProject.Name,
 		StorageLimit: &exampleStorageLimitPositive,
 	})
@@ -251,7 +251,7 @@ func TestRESTClient_NewProject_ErrProjectNameAlreadyExists(t *testing.T) {
 	mockClient.Project.On("CreateProject", createParams, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(&projectapi.CreateProjectCreated{}, &projectapi.CreateProjectConflict{})
 
-	_, err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
+	err := apiClient.NewProject(ctx, &modelv2.ProjectReq{
 		ProjectName:  exampleProject.Name,
 		StorageLimit: &exampleStorageLimitPositive,
 	})
