@@ -56,10 +56,10 @@ func (c *RESTClient) NewProject(ctx context.Context, projectRequest *modelv2.Pro
 
 	_, err := c.V2Client.Project.CreateProject(params, c.AuthInfo)
 	if err != nil {
-		return nil, handleSwaggerProjectErrors(err)
+		return handleSwaggerProjectErrors(err)
 	}
 
-	return p, nil
+	return nil
 }
 
 // DeleteProject deletes the specified project.
