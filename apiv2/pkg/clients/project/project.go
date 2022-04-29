@@ -36,7 +36,7 @@ func NewClient(v2Client *v2client.Harbor, opts *config.Options, authInfo runtime
 }
 
 type Client interface {
-	NewProject(ctx context.Context, projectRequest *modelv2.ProjectReq) error
+	NewProject(ctx context.Context, projectRequest *modelv2.ProjectReq) (*projectapi.CreateProjectCreated, error)
 	DeleteProject(ctx context.Context, nameOrID string) error
 	GetProject(ctx context.Context, nameOrID string) (*modelv2.Project, error)
 	ListProjects(ctx context.Context, nameFilter string) ([]*modelv2.Project, error)
@@ -46,7 +46,7 @@ type Client interface {
 
 // NewProject creates a new project with the given request params.
 // Referencing an existing registry via projectRequest.RegistryID will create a "Proxy Cache" project.
-func (c *RESTClient) NewProject(ctx context.Context, projectRequest *modelv2.ProjectReq) error {
+func (c *RESTClient) NewProject(ctx context.Context, projectRequest *modelv2.ProjectReq) (*projectapi.CreateProjectCreated, error) {
 	params := &projectapi.CreateProjectParams{
 		Project: projectRequest,
 		Context: ctx,
@@ -54,12 +54,12 @@ func (c *RESTClient) NewProject(ctx context.Context, projectRequest *modelv2.Pro
 
 	params.WithTimeout(c.Options.Timeout)
 
-	_, err := c.V2Client.Project.CreateProject(params, c.AuthInfo)
+	p, err := c.V2Client.Project.CreateProject(params, c.AuthInfo)
 	if err != nil {
-		return handleSwaggerProjectErrors(err)
+		return nil, handleSwaggerProjectErrors(err)
 	}
 
-	return nil
+	return p, nil
 }
 
 // DeleteProject deletes the specified project.

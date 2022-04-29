@@ -26,6 +26,7 @@ import (
 	"github.com/go-openapi/strfmt"
 
 	v2client "github.com/mittwald/goharbor-client/v5/apiv2/internal/api/client"
+	projectapi "github.com/mittwald/goharbor-client/v5/apiv2/internal/api/client/project"
 	robotv1client "github.com/mittwald/goharbor-client/v5/apiv2/internal/api/client/robotv1"
 
 	"github.com/mittwald/goharbor-client/v5/apiv2/pkg/clients/project"
@@ -171,7 +172,7 @@ func (c *RESTClient) DeleteProjectMember(ctx context.Context, projectNameOrID st
 
 // Project Client
 
-func (c *RESTClient) NewProject(ctx context.Context, projectRequest *modelv2.ProjectReq) error {
+func (c *RESTClient) NewProject(ctx context.Context, projectRequest *modelv2.ProjectReq) (*projectapi.CreateProjectCreated, error) {
 	return c.project.NewProject(ctx, projectRequest)
 }
 
