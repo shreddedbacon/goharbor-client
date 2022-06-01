@@ -97,7 +97,7 @@ func TestRESTClient_AddProjectRobotV1(t *testing.T) {
 	mockClient.Robotv1.On("CreateRobotV1", params, mock.AnythingOfType("runtime.ClientAuthInfoWriterFunc")).
 		Return(&robotv1.CreateRobotV1Created{Payload: expectedPayload}, nil)
 
-	err := apiClient.AddProjectRobotV1(ctx, strconv.Itoa(exampleProjectID), newRobot)
+	_, err := apiClient.AddProjectRobotV1(ctx, strconv.Itoa(exampleProjectID), newRobot)
 
 	require.NoError(t, err)
 
