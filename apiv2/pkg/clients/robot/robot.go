@@ -2,6 +2,7 @@ package robot
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 
@@ -88,7 +89,7 @@ func (in AccessAction) String() string {
 // ListRobotAccounts ListProjectRobots returns a list of all robot accounts.
 func (c *RESTClient) ListRobotAccounts(ctx context.Context) ([]*model.Robot, error) {
 	var robotAccounts []*model.Robot
-	page := c.Options.Page
+	page := c.Options.Page + 1
 
 	params := &robot.ListRobotParams{
 		Page:     &page,
@@ -100,11 +101,13 @@ func (c *RESTClient) ListRobotAccounts(ctx context.Context) ([]*model.Robot, err
 	params.WithTimeout(c.Options.Timeout)
 
 	for {
+		params.Page = &page
 		resp, err := c.V2Client.Robot.ListRobot(params, c.AuthInfo)
 		if err != nil {
 			return nil, handleSwaggerRobotErrors(err)
 		}
 
+		fmt.Println("LRA", page, len(resp.Payload), resp.XTotalCount)
 		if len(resp.Payload) == 0 {
 			break
 		}

@@ -163,7 +163,6 @@ func (a *Client) ListRobot(params *ListRobotParams, authInfo runtime.ClientAuthI
 	if params == nil {
 		params = NewListRobotParams()
 	}
-
 	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "ListRobot",
 		Method:             "GET",

@@ -2,6 +2,7 @@ package robotv1
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-openapi/runtime"
 	v2client "github.com/mittwald/goharbor-client/v5/apiv2/internal/api/client"
@@ -59,6 +60,7 @@ func (c *RESTClient) ListProjectRobotsV1(ctx context.Context, projectNameOrID st
 			return nil, handleSwaggerRobotV1Errors(err)
 		}
 
+		fmt.Println("LPRA", page, len(resp.Payload), resp.XTotalCount)
 		if len(resp.Payload) == 0 {
 			break
 		}
